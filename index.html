@@ -1116,6 +1116,37 @@ kbd {
 
 /* ===== MOBILE ===== */
 
+
+/* ===== V3: connections + presentation ===== */
+.card-conn-handle{position:absolute;right:-4px;top:50%;width:30px;height:30px;margin-top:-15px;border-radius:50%;background:#0a0f0a;border:2px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:crosshair;touch-action:none;z-index:6}
+@media (pointer:coarse){.card-conn-handle{width:40px;height:40px;margin-top:-20px;right:-8px}}
+.seq-row{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid rgba(0,255,65,.12);font:.74rem var(--font-mono)}
+.seq-row b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}
+.seq-row img,.seq-ph{width:36px;height:36px;object-fit:cover;border-radius:4px;flex:none;text-align:center;line-height:36px}
+.seq-n{color:var(--accent);width:18px}
+.seq-row button{min-width:40px;min-height:40px;background:rgba(0,255,65,.08);border:1px solid rgba(0,255,65,.25);color:var(--accent);border-radius:4px}
+#pres{position:fixed;inset:0;z-index:5000;display:flex;flex-direction:column;background:radial-gradient(ellipse at 30% 20%,#0d1f0d,#030703 70%);color:var(--text);transition:background .6s}
+#pres.peek{background:rgba(3,7,3,.0)}#pres.peek #pres-stage{opacity:0;transform:scale(.98)}#pres.peek #pres-bar{opacity:.5}
+#pres-stage{flex:1;min-height:0;display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(12px,2.5vw,32px);padding:clamp(12px,3vw,36px);transition:opacity .5s,transform .5s}
+#pres-stage.no-img{grid-template-columns:1fr}#pres-stage.no-img #pres-media{display:none}
+#pres-media{margin:0;min-height:0;display:flex;flex-direction:column;gap:8px}
+#pres-img{flex:1;min-height:0;width:100%;object-fit:contain;background:#000;border:1px solid rgba(0,255,65,.25);border-radius:8px;opacity:0;transform:scale(1.04);transition:opacity .7s,transform .9s}
+#pres-img.in{opacity:1;transform:none}
+#pres-thumbs{display:flex;gap:6px;overflow-x:auto}#pres-thumbs button{flex:none;width:48px;height:48px;padding:0;border:2px solid transparent;border-radius:6px;overflow:hidden;background:#000}#pres-thumbs button.on{border-color:var(--accent)}#pres-thumbs img{width:100%;height:100%;object-fit:cover}
+#pres-text{min-height:0;overflow-y:auto;align-self:center;max-height:100%}
+#pres-title{font:600 clamp(1.4rem,3.4vw,2.6rem) var(--font-display);color:var(--accent);margin:0 0 .6em;letter-spacing:.03em}
+#pres-body p{opacity:0;transform:translateY(8px);transition:opacity .6s,transform .6s;font-size:clamp(1rem,2.2vw,1.45rem);line-height:1.6;margin:0 0 .9em;padding-left:10px;border-left:3px solid transparent}
+#pres-body p.on{opacity:.55;transform:none}#pres-body p.cur{opacity:1;color:#eaffea;border-left-color:var(--accent)}
+@media (max-aspect-ratio:1/1){#pres-stage{grid-template-columns:1fr;grid-template-rows:minmax(0,38%) minmax(0,1fr)}#pres-stage.no-img{grid-template-rows:1fr}}
+#pres-bar{position:relative;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(0,0,0,.6);transition:opacity .4s}
+#pres-bar button,#pres-bar select{min-width:48px;min-height:48px;background:rgba(0,255,65,.08);border:1px solid rgba(0,255,65,.35);color:var(--accent);border-radius:6px;font:1rem var(--font-mono)}
+#pp-count{font:.8rem var(--font-mono);color:var(--text-dim);min-width:48px;text-align:center}
+#pres-prog{position:absolute;left:0;right:0;top:0;height:3px;background:rgba(0,255,65,.12)}#pres-prog i{display:block;height:100%;width:0;background:var(--accent)}
+#pres-branch{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,7,3,.9)}#pres-branch[hidden]{display:none}
+#pres-branch>div{display:flex;flex-direction:column;gap:10px;min-width:min(86vw,420px)}#pres-branch h3{font:1.3rem var(--font-display);color:var(--accent);margin:0}
+#pres-branch button{min-height:52px;background:rgba(0,255,65,.1);border:1px solid var(--accent);color:var(--text);border-radius:6px;font:1rem var(--font-mono);padding:8px 14px}
+@media (prefers-reduced-motion:reduce){#pres,#pres *{transition:none!important;animation:none!important}}
+
 /* ===== STAGE 2: image-first cards, gallery, narration ===== */
 .card-hero{position:relative;margin:0 0 8px;border-radius:3px;overflow:hidden;background:#000;aspect-ratio:4/3;cursor:pointer;border:1px solid rgba(0,255,65,0.2)}
 .card-hero img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}
@@ -1146,6 +1177,17 @@ kbd {
 .narr-err{font:0.7rem var(--font-mono);color:#ff8a8a;margin-top:8px}
 @media (prefers-reduced-motion: reduce){.narr-dot{animation:none}}
 
+
+/* Mobile action bar: key actions always visible on phones */
+#mobile-bar{display:none}
+@media (max-width: 768px){
+  #topbar{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  #topbar>*{flex-shrink:0}
+  #mobile-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:140;gap:6px;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:var(--glass);border-top:1px solid rgba(0,255,65,.25);backdrop-filter:blur(14px)}
+  #mobile-bar button{flex:1;min-height:48px;background:rgba(0,255,65,.08);border:1px solid rgba(0,255,65,.3);color:var(--accent);font:0.72rem var(--font-mono);border-radius:6px;letter-spacing:.03em}
+  #mobile-bar button.primary{background:var(--accent);color:#031003;font-weight:700;flex:1.4}
+  #float-toolbar{bottom:80px;top:auto;transform:none}
+}
 @media (max-width: 768px) {
   #sidepanel { width: 100%; }
   #minimap { display: none; }
@@ -1154,25 +1196,6 @@ kbd {
   #kb-hints { display: none; }
   .stats-pill { display: none; }
 }
-
-/* ===== VISUAL LEARNING STUDIO: PRESENTATION LAYER ===== */
-.thread-relation-label{font:700 11px 'Courier Prime',monospace;fill:#f1f7d2;stroke:#102010;stroke-width:4px;paint-order:stroke;letter-spacing:1px}
-#vls-present{position:fixed;inset:0;z-index:1200;background:radial-gradient(ellipse at center,#102010 0%,#050905 78%);color:#d8efd8;display:none;flex-direction:column;font-family:var(--font-mono)}
-#vls-present.active{display:flex}
-.vls-head{height:54px;display:flex;align-items:center;gap:12px;padding:8px 16px;border-bottom:1px solid #285028;background:#071007;flex-shrink:0}
-.vls-head strong{color:#00ff41;letter-spacing:2px}.vls-spacer{flex:1}
-.vls-btn{background:#142414;border:1px solid #3b663b;color:#d8efd8;padding:9px 13px;border-radius:6px;font:inherit;cursor:pointer}.vls-btn:disabled{opacity:.35;cursor:not-allowed}
-.vls-stage{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:22px;padding:clamp(12px,3vw,34px);align-items:center;overflow:auto}
-.vls-visual{min-height:260px;max-height:72vh;display:flex;align-items:center;justify-content:center;background:#091309;border:1px solid #315331;border-radius:12px;overflow:hidden;box-shadow:0 0 35px #00ff4118}
-.vls-visual img{max-width:100%;max-height:72vh;object-fit:contain}.vls-placeholder{color:#567256;font-size:3rem}
-.vls-copy{max-height:72vh;overflow:auto;padding:clamp(8px,2vw,24px)}.vls-kicker{color:#00ff41;font-size:.75rem;letter-spacing:2px;margin-bottom:12px}.vls-copy h1{font:600 clamp(1.5rem,4vw,3rem) var(--font-display);margin-bottom:18px;overflow-wrap:anywhere}.vls-copy p{font:1rem/1.7 var(--font-mono);white-space:pre-wrap;color:#c3d9c3}
-.vls-foot{padding:12px 16px;border-top:1px solid #285028;display:flex;align-items:center;gap:10px;flex-shrink:0}.vls-progress{height:4px;background:#1b321b;flex:1;border-radius:9px;overflow:hidden}.vls-progress i{display:block;height:100%;width:0;background:#00ff41;transition:width .25s}
-#vls-setup{position:fixed;inset:0;z-index:1190;background:#000b;display:none;align-items:center;justify-content:center;padding:14px}#vls-setup.active{display:flex}
-.vls-setup-card{width:min(680px,100%);max-height:88vh;overflow:auto;background:#0d1a0d;border:1px solid #3c713c;border-radius:12px;padding:20px;color:#d8efd8}
-.vls-order{display:flex;flex-direction:column;gap:6px;margin:14px 0}.vls-order-row{display:flex;gap:8px;align-items:center;padding:8px;background:#142414;border:1px solid #294629;border-radius:6px}.vls-order-row span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vls-order-row button{padding:5px 8px;background:#203720;color:#d8efd8;border:1px solid #426442;border-radius:4px}
-@media(max-width:720px){.vls-stage{grid-template-columns:1fr;grid-template-rows:minmax(220px,42vh) auto;gap:8px;padding:10px}.vls-visual{min-height:200px;max-height:42vh}.vls-visual img{max-height:42vh}.vls-copy{max-height:none;padding:10px 4px}.vls-head{gap:6px;padding:7px}.vls-btn{padding:8px;font-size:.75rem}.vls-foot{gap:6px;padding:9px}}
-@media(prefers-reduced-motion:reduce){#vls-present *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
-
 </style>
 </head>
 <body>
@@ -1191,6 +1214,13 @@ kbd {
 <!-- AMBIENT -->
 <canvas id="ambient-canvas"></canvas>
 
+<div id="mobile-bar" role="toolbar" aria-label="Main actions">
+  <button type="button" onclick="openNewCardPanel()">＋ CARD</button>
+  <button type="button" onclick="toggleConnectMode()">⟠ LINK</button>
+  <button type="button" onclick="openSequenceEditor()">☰ ORDER</button>
+  <button type="button" class="primary" onclick="startPresentation(0)">🎬 PRESENT</button>
+</div>
+
 <!-- MAIN APP -->
 <div id="app">
 
@@ -1201,7 +1231,8 @@ kbd {
     <button class="tb-btn" onclick="openNewCardPanel()">＋ NEW CARD</button>
     <button class="tb-btn" onclick="toggleConnectMode()" id="connect-mode-btn">⟠ CONNECT</button>
     <button class="tb-btn play" id="play-btn" onclick="startPlayInvestigation()">▶ PLAY INVESTIGATION</button>
-    <button class="tb-btn" id="presentation-btn" onclick="openPresentationSetup()">▣ PRESENT</button>
+    <button class="tb-btn play" id="present-btn" onclick="startPresentation(0)">🎬 PRESENT</button>
+    <button class="tb-btn" onclick="openSequenceEditor()">☰ ORDER</button>
     <button class="tb-btn" onclick="autoLayout()">⊞ AUTO LAYOUT</button>
     <div class="topbar-sep"></div>
     <button class="tb-btn" onclick="toggleTimeline()">📅 TIMELINE</button>
@@ -1378,9 +1409,6 @@ kbd {
     <div class="thread-color-opt" data-color="#ff69b4" style="background:#ff69b4" onclick="selectThreadColor('#ff69b4',this)"></div>
     <label class="form-label" style="font-size:0.6rem;margin-bottom:0;align-self:center">Thickness:</label>
     <input type="range" id="thread-thickness" min="1" max="5" value="2" style="width:80px;accent-color:var(--accent4)">
-    <label style="font-size:0.65rem;display:flex;align-items:center;gap:4px;cursor:pointer;">
-      Relation: <select id="thread-relation" style="background:#102010;color:#c8e6c9;border:1px solid #355535;padding:4px;border-radius:4px"><option value="RELATED">RELATED</option><option>CAUSE</option><option>EFFECT</option><option>EXAMPLE</option><option>CONTRAST</option><option>LEADS TO</option><option>PART OF</option><option>SUPPORTS</option></select>
-    </label>
     <label style="font-size:0.65rem;display:flex;align-items:center;gap:4px;cursor:pointer;">
       <input type="checkbox" id="thread-animated" checked style="accent-color:var(--accent4)"> Animated
     </label>
@@ -1573,6 +1601,7 @@ async function init() {
   setLoadStatus('Loading investigation...');
   await loadAll();
   gcNarrationFiles();
+  await loadPresentation();
   setLoadStatus('Rendering board...');
   initBoard();
   initMinimap();
@@ -1968,27 +1997,6 @@ function bindCardEvents(el, c) {
     window.addEventListener('mouseup', onUp);
   });
 
-  // Touch resize for Android/mobile. The handle owns the gesture so board panning does not steal it.
-  const resizeHandle = el.querySelector('.card-resize-handle');
-  if (resizeHandle) {
-    resizeHandle.style.touchAction = 'none';
-    let touchResize = null;
-    resizeHandle.addEventListener('touchstart', e => {
-      if (e.touches.length !== 1) return;
-      e.preventDefault(); e.stopPropagation();
-      touchResize = { x: e.touches[0].clientX, w: c.w || 220 };
-    }, { passive: false });
-    resizeHandle.addEventListener('touchmove', e => {
-      if (!touchResize || e.touches.length !== 1) return;
-      e.preventDefault(); e.stopPropagation();
-      c.w = Math.max(160, touchResize.w + (e.touches[0].clientX - touchResize.x) / STATE.zoom);
-      el.style.width = c.w + 'px'; renderThreads(); updateMinimap();
-    }, { passive: false });
-    const finishTouchResize = () => { if (!touchResize) return; touchResize = null; dbPut('cards', c); saveAll(); };
-    resizeHandle.addEventListener('touchend', finishTouchResize, { passive: true });
-    resizeHandle.addEventListener('touchcancel', finishTouchResize, { passive: true });
-  }
-
   // Context menu
   el.addEventListener('contextmenu', e => {
     e.preventDefault(); e.stopPropagation();
@@ -2060,12 +2068,6 @@ function renderThreads() {
     if (t.animated) path.classList.add('animated');
     if (t.arrow) path.setAttribute('marker-end', `url(#${threadColorToMarker(t.color || '#ff3c3c')})`);
     g.appendChild(path);
-    if (t.relation && t.relation !== 'RELATED') {
-      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      label.setAttribute('x', mx); label.setAttribute('y', my - 8);
-      label.setAttribute('text-anchor', 'middle'); label.classList.add('thread-relation-label');
-      label.textContent = t.relation; g.appendChild(label);
-    }
 
     // Invisible hit area
     const hit = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -2112,7 +2114,6 @@ function addThread(fromId, toId) {
     thickness: parseInt(document.getElementById('thread-thickness').value) || 2,
     animated: document.getElementById('thread-animated').checked,
     arrow: document.getElementById('thread-arrow').checked,
-    relation: document.getElementById('thread-relation')?.value || 'RELATED',
     createdAt: Date.now(),
   };
   pushHistory();
@@ -2205,7 +2206,7 @@ function editCard(id) {
   document.getElementById('sidepanel').classList.add('open');
 }
 
-async function vlsBaseSaveCard() {
+async function saveCard() {
   const title = document.getElementById('card-title').value.trim();
   const desc = document.getElementById('card-desc').value.trim();
   const tagsRaw = document.getElementById('card-tags').value.trim();
@@ -2267,7 +2268,7 @@ async function vlsBaseSaveCard() {
   closePanel();
 }
 
-async function vlsBaseDeleteCard(id) {
+async function deleteCard(id) {
   pushHistory();
   // Remove threads
   const toRemove = STATE.threads.filter(t => t.from === id || t.to === id);
@@ -2658,6 +2659,374 @@ async function gcNarrationFiles() {
     for (const f of await dbGetAll('files')) if (f.kind === 'narration' && !used.has(f.id)) await dbDelete('files', f.id);
   } catch (e) { console.warn('Narration cleanup skipped:', e); }
 }
+
+// =================== V3: PRESENTATION ORDER (independent of threads) ===================
+STATE.pres = { sequence: [], branches: {} };   // sequence[0] = default starting card
+STATE.hpos = 0; STATE.tip = null; STATE.restoring = false;
+async function loadPresentation() {
+  try { const m = await dbGet('meta', 'presentation'); if (m) STATE.pres = { sequence: m.sequence || [], branches: m.branches || {} }; }
+  catch (e) { console.warn('presentation load', e); }
+}
+function savePresentation() {
+  return Promise.resolve(dbPut('meta', { key: 'presentation', sequence: STATE.pres.sequence, branches: STATE.pres.branches }))
+    .catch(() => notify('Could not save presentation order', 'error'));
+}
+const cardById = id => STATE.cards.find(c => c.id === id);
+function presSeq() { return STATE.pres.sequence.filter(id => cardById(id)); }
+function openSequenceEditor() {
+  showModal('🎬 Presentation order', '<div id="seq-box"></div>', [
+    { text: '▶ Present', cls: 'primary', cb: () => { closeModal(); startPresentation(0); } },
+    { text: 'Close', cls: 'cancel', cb: closeModal }]);
+  renderSeqEditor();
+}
+function renderSeqEditor() {
+  const box = document.getElementById('seq-box'); if (!box) return;
+  const seq = presSeq(); STATE.pres.sequence = seq;
+  const rest = STATE.cards.filter(c => !seq.includes(c.id));
+  const ms = seq.reduce((a, id) => a + ((cardById(id).narration || {}).durationMs || 0), 0);
+  box.innerHTML = `<div class="narr-note" style="margin:0 0 8px">${seq.length ? seq.length + ' steps · narration ' + fmtMs(ms) + ' · order is separate from threads' : 'Empty: playback will use all cards oldest-first.'}</div>` +
+    seq.map((id, i) => { const c = cardById(id), im = getMainImage(c), nb = (STATE.pres.branches[id] || []).length;
+      return `<div class="seq-row"><span class="seq-n">${i + 1}</span>${im ? `<img src="${im.data}" alt="">` : '<span class="seq-ph">▣</span>'}<b>${escHtml(c.title || 'Untitled')}${c.narration ? ' 🎙' + fmtMs(c.narration.durationMs) : ''}${nb > 1 ? ' ⑂' + nb : ''}</b>
+      <button aria-label="Move up" onclick="seqMove(${i},-1)">↑</button><button aria-label="Move down" onclick="seqMove(${i},1)">↓</button><button aria-label="Choose branches" onclick="openBranchEditor('${id}')">⑂</button><button aria-label="Play from here" onclick="closeModal();startPresentation(${i})">▶</button><button aria-label="Remove from order" onclick="seqRemove(${i})">✕</button></div>`; }).join('') +
+    `<div class="narr-row" style="margin-top:10px">${rest.length ? `<select id="seq-add" class="form-input" style="flex:1">${rest.map(c => `<option value="${c.id}">${escHtml(c.title || 'Untitled')}</option>`).join('')}</select><button class="narr-btn" onclick="seqAdd()">＋ Add</button>` : ''}<button class="narr-btn dim" onclick="seqAuto()">Auto from threads</button><button class="narr-btn dim" onclick="seqAll()">Add all</button></div>`;
+}
+function seqChanged() { savePresentation(); renderSeqEditor(); }
+function seqMove(i, d) { const s = STATE.pres.sequence, j = i + d; if (j < 0 || j >= s.length) return; [s[i], s[j]] = [s[j], s[i]]; seqChanged(); }
+function seqRemove(i) { STATE.pres.sequence.splice(i, 1); seqChanged(); }
+function seqAdd() { const v = document.getElementById('seq-add'); if (v && v.value) { STATE.pres.sequence.push(v.value); seqChanged(); } }
+function seqAll() { STATE.cards.slice().sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0)).forEach(c => { if (!STATE.pres.sequence.includes(c.id)) STATE.pres.sequence.push(c.id); }); seqChanged(); }
+function seqAuto() {   // one-time suggestion from threads; the result stays freely editable
+  const start = presSeq()[0] || (STATE.cards.slice().sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0))[0] || {}).id; if (!start) return;
+  const seen = new Set(), out = [];
+  (function dfs(id) { if (seen.has(id) || !cardById(id)) return; seen.add(id); out.push(id); STATE.threads.filter(t => t.from === id).forEach(t => dfs(t.to)); })(start);
+  STATE.pres.sequence = out; seqChanged();
+}
+function openBranchEditor(id) {
+  const c = cardById(id), cur = STATE.pres.branches[id] || [];
+  const opts = [...new Set(STATE.threads.filter(t => t.from === id).map(t => t.to))].filter(cardById);
+  showModal('⑂ Next-step choices: ' + escHtml(c.title || ''), opts.length < 2 ? '<p class="narr-note">This card needs 2+ outgoing threads to offer a choice.</p>' :
+    '<p class="narr-note">Tick the cards the viewer may choose between after this card.</p>' + opts.map(o => `<label style="display:flex;gap:8px;min-height:44px;align-items:center;font:.8rem var(--font-mono)"><input type="checkbox" class="br-opt" value="${o}" ${cur.includes(o) ? 'checked' : ''}>${escHtml(cardById(o).title || 'Untitled')}</label>`).join(''),
+    [{ text: 'Save', cls: 'primary', cb: () => { const v = [...document.querySelectorAll('.br-opt:checked')].map(x => x.value); if (v.length > 1) STATE.pres.branches[id] = v; else delete STATE.pres.branches[id]; savePresentation(); openSequenceEditor(); } },
+     { text: 'Back', cls: 'cancel', cb: openSequenceEditor }]);
+}
+
+// =================== V3: PRESENTATION ENGINE ===================
+const PR = { el: null, seq: [], i: 0, audio: null, url: null, timers: [], paused: false, speed: 1, rm: false, tok: 0, ended: false, c: null };
+// A pausable, cancellable delay. The old implementation cleared timeout IDs
+// without resolving their promises, which could permanently stall transitions
+// or text reveals after Pause / manual navigation.
+function delay(ms, tok = PR.tok) {
+  return new Promise(resolve => {
+    let remaining = Math.max(0, Number(ms) || 0);
+    let last = performance.now();
+    let timer = null;
+    let settled = false;
+    const finish = value => {
+      if (settled) return;
+      settled = true;
+      if (timer !== null) clearTimeout(timer);
+      const i = PR.timers.indexOf(task);
+      if (i >= 0) PR.timers.splice(i, 1);
+      resolve(value);
+    };
+    const tick = () => {
+      if (tok !== PR.tok) return finish(false);
+      const now = performance.now();
+      if (!PR.paused) remaining -= now - last;
+      last = now;
+      if (remaining <= 0) return finish(true);
+      timer = setTimeout(tick, Math.min(50, Math.max(10, remaining)));
+    };
+    const task = { cancel: () => finish(false) };
+    PR.timers.push(task);
+    timer = setTimeout(tick, Math.min(50, Math.max(0, remaining)));
+  });
+}
+function clearPresTimers() { PR.timers.slice().forEach(task => task.cancel()); PR.timers = []; }
+function stopPresAudio() {
+  const a = PR.audio;
+  if (a) { a.onended = a.ontimeupdate = null; try { a.pause(); } catch (e) {} a.removeAttribute('src'); try { a.load(); } catch (e) {} }
+  if (PR.url) URL.revokeObjectURL(PR.url);
+  PR.audio = null; PR.url = null;
+}
+function startPresentation(from) {
+  let seq = presSeq();
+  if (!seq.length) seq = STATE.cards.slice().sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0)).map(c => c.id);
+  if (!seq.length) { notify('Create some cards first', 'error'); return; }
+  if (PR.el) exitPresentation();
+  cancelConnect && cancelConnect();
+  PR.seq = seq.slice(); PR.paused = false; PR.rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const el = PR.el = document.createElement('div');
+  el.id = 'pres'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Presentation');
+  el.innerHTML = `<div id="pres-stage"><figure id="pres-media"><img id="pres-img" alt=""><div id="pres-thumbs"></div></figure>
+    <div id="pres-text"><h2 id="pres-title"></h2><div id="pres-body" aria-live="polite"></div><div id="pres-tags"></div></div></div>
+    <div id="pres-branch" hidden></div>
+    <div id="pres-bar"><div id="pres-prog"><i id="pres-prog-i"></i></div>
+    <button id="pp-prev" aria-label="Previous card" onclick="presGo(-1)">⏮</button><button id="pp-play" aria-label="Pause" onclick="presToggle()">⏸</button><button id="pp-next" aria-label="Next card" onclick="presNext(false)">⏭</button><button aria-label="Restart" onclick="presRestart()">↺</button>
+    <span id="pp-count" aria-live="off"></span>
+    <select id="pp-speed" aria-label="Playback speed" onchange="presSpeed(this.value)"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select>
+    <button id="pp-fs" aria-label="Fullscreen" onclick="presFullscreen()">⛶</button><button aria-label="Exit presentation" onclick="exitPresentation()">✕</button></div>`;
+  document.body.appendChild(el);
+  document.addEventListener('keydown', presKey, true);
+  document.addEventListener('fullscreenchange', presFsChange);
+  presFullscreen(true);
+  showPresCard(Math.min(from || 0, PR.seq.length - 1), true);
+  document.getElementById('pp-play').focus();
+}
+function presKey(e) {
+  if (!PR.el) return;
+  if (e.target && e.target.tagName === 'SELECT') return;
+  const k = e.key;
+  if (k === ' ' || k === 'ArrowRight' || k === 'ArrowLeft' || k === 'Escape' || k === 'f' || k === 'F') {
+    e.preventDefault(); e.stopPropagation();
+    if (k === ' ') presToggle(); else if (k === 'ArrowRight') presNext(false); else if (k === 'ArrowLeft') presGo(-1); else if (k === 'Escape') exitPresentation(); else presFullscreen();
+  }
+}
+function presFullscreen(auto) {
+  const el = PR.el; if (!el) return;
+  if (document.fullscreenElement) { if (!auto) document.exitFullscreen().catch(() => {}); return; }
+  if (!el.requestFullscreen) { if (!auto) notify('Fullscreen is not supported here', 'info'); return; }
+  el.requestFullscreen().then(() => { try { screen.orientation.lock('landscape').catch(() => {}); } catch (e) {} }).catch(() => { if (!auto) notify('Fullscreen was blocked by the browser', 'info'); });
+}
+function presFsChange() { const b = document.getElementById('pp-fs'); if (b) b.setAttribute('aria-pressed', document.fullscreenElement ? 'true' : 'false'); }
+function exitPresentation() {
+  PR.tok++; clearPresTimers(); stopPresAudio();
+  document.removeEventListener('keydown', presKey, true);
+  document.removeEventListener('fullscreenchange', presFsChange);
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  try { screen.orientation.unlock(); } catch (e) {}
+  document.querySelectorAll('.pres-tmp-thread').forEach(n => n.remove());
+  if (PR.el) PR.el.remove(); PR.el = null;
+  const b = document.getElementById('present-btn'); if (b) b.focus();
+}
+async function presTransition(a, b, tok) {
+  const el = PR.el;
+  if (!el) return;
+  el.classList.add('peek');
+  const svg = document.getElementById('threads-svg');
+  let p = null;
+  // Animate a real relationship only when these two cards are actually linked.
+  // For unconnected cards, use the camera transition without inventing a thread.
+  const link = STATE.threads.find(t => (t.from === a && t.to === b) || (t.from === b && t.to === a));
+  const sourcePath = link && svg && svg.querySelector(`.thread-group[data-tid="${link.id}"] .thread-path`);
+  if (sourcePath && !PR.rm) {
+    p = sourcePath.cloneNode(false);
+    p.setAttribute('class', 'pres-tmp-thread');
+    p.removeAttribute('marker-end');
+    p.style.pointerEvents = 'none';
+    const L = p.getTotalLength();
+    p.style.strokeDasharray = String(L);
+    p.style.strokeDashoffset = String(L);
+    p.style.strokeWidth = String(Math.max(3, Number(link.thickness) || 2));
+    p.style.filter = 'drop-shadow(0 0 5px currentColor)';
+    svg.appendChild(p);
+    p.getBoundingClientRect();
+    p.style.transition = 'stroke-dashoffset .75s ease';
+    p.style.strokeDashoffset = '0';
+    await delay(800, tok);
+  }
+  if (tok !== PR.tok) { if (p) p.remove(); return; }
+  cameraFocus(b, PR.rm ? 0 : 0.9);
+  await delay(PR.rm ? 0 : 950, tok);
+  if (p) p.remove();
+  if (tok === PR.tok && PR.el) el.classList.remove('peek');
+}
+async function showPresCard(i, first) {
+  clearPresTimers(); stopPresAudio();
+  const tok = ++PR.tok, prev = PR.c && PR.c.id;
+  const c = cardById(PR.seq[i]);
+  if (!c) { PR.seq.splice(i, 1); if (!PR.seq.length) { exitPresentation(); return; } return showPresCard(Math.min(i, PR.seq.length - 1), first); }
+  PR.i = i; PR.c = c; PR.ended = false;
+  document.getElementById('pres-branch').hidden = true;
+  document.getElementById('pp-count').textContent = (i + 1) + ' / ' + PR.seq.length;
+  document.getElementById('pres-prog-i').style.width = '0';
+  if (first || !prev) cameraFocus(c.id, 0); else await presTransition(prev, c.id, tok);
+  if (tok !== PR.tok) return;
+  // ----- content -----
+  const imgs = getCardImages(c), main = getMainImage(c), img = document.getElementById('pres-img');
+  const stage = document.getElementById('pres-stage'); stage.classList.toggle('no-img', !main);
+  img.classList.remove('in'); img.alt = main ? (main.name || c.title || 'image') : ''; img.src = main ? main.data : '';
+  document.getElementById('pres-thumbs').innerHTML = imgs.length > 1 ? imgs.map(a => `<button aria-label="Show image" data-id="${a.id}" class="${main && a.id === main.id ? 'on' : ''}"><img src="${a.data}" alt=""></button>`).join('') : '';
+  document.querySelectorAll('#pres-thumbs button').forEach(b => b.onclick = () => { const a = imgs.find(x => x.id === b.dataset.id); img.src = a.data; document.querySelectorAll('#pres-thumbs button').forEach(x => x.classList.toggle('on', x === b)); });
+  document.getElementById('pres-title').textContent = c.title || 'Untitled';
+  const paras = (c.desc || '').split(/\n+/).map(s => s.trim()).filter(Boolean);
+  document.getElementById('pres-body').innerHTML = paras.map(p => `<p>${escHtml(p)}</p>`).join('');
+  document.getElementById('pres-tags').innerHTML = (c.tags || []).map(t => `<span class="tag">${escHtml(t)}</span>`).join(' ');
+  requestAnimationFrame(() => img.classList.add('in'));
+  const ps = [...document.querySelectorAll('#pres-body p')], total = paras.join('').length || 1;
+  let acc = 0; const starts = paras.map(p => { const s = acc / total; acc += p.length; return s; });
+  const reveal = n => ps.forEach((p, k) => { p.classList.toggle('on', k <= n); p.classList.toggle('cur', k === n); });
+  PR.reveal = reveal; PR.allOn = () => ps.forEach(p => { p.classList.add('on'); p.classList.remove('cur'); });
+  // ----- narration -----
+  let rec = null;
+  if (c.narration && c.narration.fileId) { try { rec = await dbGet('files', c.narration.fileId); } catch (e) {} if (tok !== PR.tok) return; }
+  if (rec && rec.blob) {
+    reveal(0);
+    PR.url = URL.createObjectURL(rec.blob);
+    const a = PR.audio = new Audio(PR.url); a.playbackRate = PR.speed;
+    const dur = (c.narration.durationMs || 0) / 1000;
+    a.ontimeupdate = () => {
+      const d = dur || (isFinite(a.duration) ? a.duration : 0) || 1, f = a.currentTime / d;
+      document.getElementById('pres-prog-i').style.width = Math.min(100, f * 100) + '%';
+      let n = 0; starts.forEach((s, k) => { if (f >= s) n = k; }); reveal(n);
+    };
+    a.onended = () => { PR.allOn(); PR.ended = true; document.getElementById('pres-prog-i').style.width = '100%'; if (!PR.paused) autoAdvance(tok); };
+    if (!PR.paused) { try { await a.play(); } catch (e) { PR.paused = true; notify('Tap Play to start the narration', 'info'); } }
+  } else {
+    if (c.narration) notify('Narration audio is missing for this card', 'error');
+    for (let k = 0; k < ps.length; k++) { reveal(k); if (k < ps.length - 1) await delay(PR.rm ? 0 : 500); if (tok !== PR.tok) return; }
+    PR.allOn();   // no recording: wait for the user to press Next
+  }
+  presUpdateBtn();
+}
+async function autoAdvance(tok) { await delay(1200 / PR.speed, tok); if (tok === PR.tok && !PR.paused) presNext(true); }
+function presUpdateBtn() { const b = document.getElementById('pp-play'); if (b) { b.textContent = PR.paused ? '▶' : '⏸'; b.setAttribute('aria-label', PR.paused ? 'Play' : 'Pause'); } }
+function presToggle() {
+  PR.paused = !PR.paused;
+  if (PR.paused) { PR.audio && PR.audio.pause(); }
+  else if (PR.audio && !PR.ended) PR.audio.play().catch(() => {});
+  // Pending presentation delays resume themselves; do not schedule a duplicate advance.
+  presUpdateBtn();
+}
+function presSpeed(v) { PR.speed = parseFloat(v) || 1; if (PR.audio) PR.audio.playbackRate = PR.speed; }
+function presGo(d) { const j = PR.i + d; if (j < 0) { showPresCard(0, true); return; } if (j < PR.seq.length) showPresCard(j); }
+function presRestart() { PR.seq = (presSeq().length ? presSeq() : PR.seq).slice(); PR.c = null; showPresCard(0, true); }
+function presNext(auto) {
+  const id = PR.seq[PR.i];
+  const br = (STATE.pres.branches[id] || []).filter(cardById);
+  if (br.length > 1) {   // never choose randomly: ask
+    PR.tok++; clearPresTimers(); stopPresAudio();
+    const box = document.getElementById('pres-branch'); box.hidden = false;
+    box.innerHTML = `<div role="group" aria-label="Choose next direction"><h3>Where next?</h3>${br.map(b => `<button data-id="${b}">${escHtml(cardById(b).title || 'Untitled')}</button>`).join('')}</div>`;
+    box.querySelectorAll('button').forEach(btn => btn.onclick = () => {
+      const t = btn.dataset.id, j = PR.seq.indexOf(t);
+      if (j < 0) PR.seq.splice(PR.i + 1, 0, t);
+      showPresCard(j < 0 ? PR.i + 1 : j);
+    });
+    box.querySelector('button').focus(); return;
+  }
+  if (PR.i >= PR.seq.length - 1) { PR.paused = true; presUpdateBtn(); notify('End of presentation: Restart or Exit', 'info'); return; }
+  showPresCard(PR.i + 1);
+}
+
+// =================== V3: CONNECTIONS (labels + drag handles) ===================
+const THREAD_LABELS = ['CAUSE', 'EFFECT', 'EXAMPLE', 'CONTRAST', 'LEADS TO', 'PART OF', 'SUPPORTS'];
+function askThreadLabel(id) {
+  const t = STATE.threads.find(x => x.id === id); if (!t) return;
+  showModal('🏷 Relationship label', `<div class="narr-row">${THREAD_LABELS.map(l => `<button class="narr-btn" onclick="document.getElementById('th-label').value='${l}'">${l}</button>`).join('')}</div>
+    <input id="th-label" class="form-input" maxlength="24" placeholder="Custom label (optional)" style="margin-top:10px" value="${escHtml(t.label || '')}">`,
+    [{ text: 'Save', cls: 'primary', cb: () => { t.label = document.getElementById('th-label').value.trim().toUpperCase(); dbPut('threads', t); renderThreads(); closeModal(); } },
+     { text: 'No label', cls: 'cancel', cb: () => { delete t.label; dbPut('threads', t); renderThreads(); closeModal(); } }]);
+}
+const _addThread = addThread;
+addThread = function (a, b) { const n = STATE.threads.length; _addThread(a, b); if (STATE.threads.length > n) askThreadLabel(STATE.threads[STATE.threads.length - 1].id); };
+const _renderThreads = renderThreads;
+renderThreads = function () {
+  _renderThreads();
+  const svg = document.getElementById('threads-svg'); if (!svg) return;
+  svg.querySelectorAll('.thread-label').forEach(n => n.remove());
+  STATE.threads.forEach(t => {
+    if (!t.label) return; const a = getCardCenter(t.from), b = getCardCenter(t.to); if (!a || !b) return;
+    const x = (a.x + b.x) / 2, y = (a.y + b.y) / 2, w = t.label.length * 8 + 16;
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.setAttribute('class', 'thread-label'); g.style.cursor = 'pointer'; g.style.pointerEvents = 'all';
+    g.innerHTML = `<rect x="${x - w / 2}" y="${y - 11}" width="${w}" height="22" rx="11" fill="#0a0f0a" stroke="${t.color || '#00ff41'}"/><text x="${x}" y="${y + 4}" text-anchor="middle" fill="#c8e6c9" font-size="11" font-family="monospace"></text>`;
+    g.querySelector('text').textContent = t.label;
+    g.addEventListener('click', e => { e.stopPropagation(); askThreadLabel(t.id); });
+    svg.appendChild(g);
+  });
+};
+function clientToBoard(cx, cy) { const r = document.getElementById('board-wrap').getBoundingClientRect(); return { x: (cx - r.left - STATE.panX) / STATE.zoom, y: (cy - r.top - STATE.panY) / STATE.zoom }; }
+function attachConnHandle(el, c) {
+  if (el.querySelector('.card-conn-handle')) return;
+  const h = document.createElement('div'); h.className = 'card-conn-handle'; h.textContent = '⟠'; h.setAttribute('role', 'button'); h.setAttribute('aria-label', 'Drag to another card to connect'); h.title = 'Drag to connect';
+  el.appendChild(h);
+  h.addEventListener('touchstart', e => e.stopPropagation(), { passive: true });
+  h.addEventListener('mousedown', e => e.stopPropagation());
+  h.addEventListener('pointerdown', e => {
+    e.preventDefault(); e.stopPropagation();
+    const svg = document.getElementById('threads-svg'), A = getCardCenter(c.id); if (!A) return;
+    try { h.setPointerCapture(e.pointerId); } catch (x) {}
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'path'); line.setAttribute('class', 'pres-tmp-thread'); line.style.cssText = 'stroke:#ffd700;stroke-width:3;stroke-dasharray:6 4;fill:none';
+    svg.appendChild(line); let hot = null;
+    const move = ev => { const p = clientToBoard(ev.clientX, ev.clientY); line.setAttribute('d', `M${A.x} ${A.y} L${p.x} ${p.y}`);
+      const t = document.elementFromPoint(ev.clientX, ev.clientY), cd = t && t.closest && t.closest('.card');
+      if (hot && hot !== cd) hot.classList.remove('connecting-source'); hot = cd && cd.dataset.id !== c.id ? cd : null; if (hot) hot.classList.add('connecting-source'); };
+    const up = ev => { h.removeEventListener('pointermove', move); h.removeEventListener('pointerup', up); h.removeEventListener('pointercancel', up);
+      line.remove(); if (hot) hot.classList.remove('connecting-source');
+      const t = document.elementFromPoint(ev.clientX, ev.clientY), cd = t && t.closest && t.closest('.card');
+      if (ev.type !== 'pointercancel' && cd && cd.dataset.id && cd.dataset.id !== c.id) addThread(c.id, cd.dataset.id); };
+    h.addEventListener('pointermove', move); h.addEventListener('pointerup', up); h.addEventListener('pointercancel', up);
+  });
+}
+const _uce = updateCardElement;
+updateCardElement = function (el, c) { const r = _uce(el, c); attachConnHandle(el, c); return r; };
+
+// =================== V3: EXPORT / IMPORT (images + narration + presentation) ===================
+exportJSON = async function () {
+  try {
+    const used = new Set(STATE.cards.map(c => c.narration && c.narration.fileId).filter(Boolean)), nf = {}; let missing = 0;
+    for (const f of await dbGetAll('files')) if (f.kind === 'narration' && used.has(f.id) && f.blob) nf[f.id] = { mime: f.mime, durationMs: f.durationMs, size: f.size, createdAt: f.createdAt, data: await blobToDataURL(f.blob) };
+    used.forEach(id => { if (!nf[id]) missing++; });
+    download('investigation_' + Date.now() + '.json', 'application/json', JSON.stringify({ schemaVersion: 2, cards: STATE.cards, threads: STATE.threads, presentation: STATE.pres, narrationFiles: nf, exported: new Date().toISOString() }));
+    notify(missing ? `Exported, but ${missing} narration file(s) were missing` : 'Exported (images, narration, order included)', missing ? 'error' : 'success');
+  } catch (e) { notify('Export failed: ' + e.message, 'error'); }
+};
+importBoard = function () {
+  const input = document.createElement('input'); input.type = 'file'; input.accept = '.json,application/json';
+  input.onchange = async e => {
+    const file = e.target.files[0]; if (!file) return;
+    let data;
+    try { data = JSON.parse(await file.text()); } catch (x) { notify('Import failed: not valid JSON', 'error'); return; }
+    if (!data || !Array.isArray(data.cards) || !Array.isArray(data.threads) || data.cards.some(c => !c || typeof c.id !== 'string')) { notify('Invalid board file', 'error'); return; }
+    showModal('⬆ Import Investigation', `<p class="narr-note">${data.cards.length} cards, ${data.threads.length} threads${data.narrationFiles ? ', ' + Object.keys(data.narrationFiles).length + ' narrations' : ''}.</p><p class="narr-note" style="color:#ff8a8a">Replaces the current board. A backup file of the current board is downloaded first.</p>`, [
+      { text: 'Backup & Import', cls: 'primary', cb: async () => {
+        closeModal();
+        try {
+          if (STATE.cards.length) await exportJSON();   // never replace silently
+          const files = [];
+          for (const [id, f] of Object.entries(data.narrationFiles || {})) files.push({ id, kind: 'narration', blob: await (await fetch(f.data)).blob(), mime: f.mime, durationMs: f.durationMs, size: f.size, createdAt: f.createdAt });
+          await clearBoardData();
+          for (const f of files) await dbPut('files', f);
+          for (const c of data.cards) { c.x = +c.x || 0; c.y = +c.y || 0; STATE.cards.push(c); await dbPut('cards', c); }
+          for (const t of data.threads) { STATE.threads.push(t); await dbPut('threads', t); }
+          STATE.pres = { sequence: (data.presentation && data.presentation.sequence) || [], branches: (data.presentation && data.presentation.branches) || {} };
+          await savePresentation();
+          STATE.history = []; STATE.hpos = 0; STATE.tip = null;
+          renderAll(); updateStats(); buildTimeline(); updateMinimap(); try { fitAll(); } catch (e) {} notify('Investigation imported', 'success');
+        } catch (x) { console.warn(x); notify('Import failed: ' + x.message + '. Your backup file was kept.', 'error'); }
+      } },
+      { text: 'Cancel', cls: 'cancel', cb: closeModal }]);
+  };
+  input.click();
+};
+
+// =================== V3: UNDO / REDO (fixed: pre-action snapshots + tip snapshot) ===================
+function snapNow() { return { cards: JSON.parse(JSON.stringify(STATE.cards)), threads: JSON.parse(JSON.stringify(STATE.threads)) }; }
+pushHistory = function () {
+  STATE.history = STATE.history.slice(0, STATE.hpos); STATE.history.push(snapNow());
+  if (STATE.history.length > STATE.maxHistory) STATE.history.shift();
+  STATE.hpos = STATE.history.length; STATE.tip = null;
+};
+async function restoreSnap(snap) {
+  if (STATE.restoring) return; STATE.restoring = true;
+  try {
+    for (const c of STATE.cards) await dbDelete('cards', c.id);
+    for (const t of STATE.threads) await dbDelete('threads', t.id);
+    STATE.cards = JSON.parse(JSON.stringify(snap.cards)); STATE.threads = JSON.parse(JSON.stringify(snap.threads));
+    for (const c of STATE.cards) await dbPut('cards', c);
+    for (const t of STATE.threads) await dbPut('threads', t);
+    renderAll(); updateStats(); buildTimeline(); updateMinimap();
+  } catch (e) { notify('Undo/redo failed: ' + e.message, 'error'); } finally { STATE.restoring = false; }
+}
+undo = function () {
+  if (STATE.hpos <= 0) { notify('Nothing to undo', 'info'); return; }
+  if (STATE.hpos === STATE.history.length && !STATE.tip) STATE.tip = snapNow();
+  STATE.hpos--; restoreSnap(STATE.history[STATE.hpos]); notify('Undo', 'info');
+};
+redo = function () {
+  if (STATE.hpos >= STATE.history.length) { notify('Nothing to redo', 'info'); return; }
+  STATE.hpos++; restoreSnap(STATE.hpos === STATE.history.length ? STATE.tip : STATE.history[STATE.hpos]); notify('Redo', 'info');
+};
 
 // =================== PLAY INVESTIGATION ===================
 // Graph traversal: DFS traversal order by thread creation time
@@ -3320,48 +3689,6 @@ document.getElementById('ctx-del-thread').addEventListener('click', () => {
     document.getElementById(id).style.display = 'flex';
   });
 });
-
-
-// =================== VISUAL LEARNING STUDIO CONTROLLER ===================
-// Presentation sequence is deliberately independent of the connection graph.
-let VLS = { order: [], index: 0, audio: null, audioUrl: null, playing: false };
-function vlsDefaultOrder(){ return [...STATE.cards].sort((a,b)=>(a.timestamp||0)-(b.timestamp||0)).map(c=>c.id); }
-async function vlsLoadOrder(){ try { const m=await dbGet('meta','presentation'); VLS.order=Array.isArray(m?.order)?m.order.filter(id=>STATE.cards.some(c=>c.id===id)):[]; } catch(e){} if(!VLS.order.length) VLS.order=vlsDefaultOrder(); const missing=STATE.cards.map(c=>c.id).filter(id=>!VLS.order.includes(id)); VLS.order.push(...missing); }
-async function vlsSaveOrder(){ VLS.order=VLS.order.filter(id=>STATE.cards.some(c=>c.id===id)); await dbPut('meta',{key:'presentation',order:VLS.order}); }
-function vlsEnsureUI(){
- if(!document.getElementById('vls-setup')){
-  const setup=document.createElement('div'); setup.id='vls-setup'; setup.innerHTML=`<div class="vls-setup-card"><div style="display:flex;align-items:center;gap:10px"><h2 style="color:#00ff41">Presentation sequence</h2><span class="vls-spacer"></span><button class="vls-btn" onclick="closePresentationSetup()">✕</button></div><p style="color:#8fae8f;margin-top:8px">Arrange the learning order. This sequence is separate from the board's thread connections.</p><div id="vls-order" class="vls-order"></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="vls-btn" onclick="vlsResetOrder()">Reset to created order</button><span class="vls-spacer"></span><button class="vls-btn" onclick="closePresentationSetup()">Cancel</button><button class="vls-btn" style="border-color:#00ff41" onclick="savePresentationSetup()">Save & Present</button></div></div>`; document.body.appendChild(setup);
- }
- if(!document.getElementById('vls-present')){
-  const el=document.createElement('section'); el.id='vls-present'; el.setAttribute('aria-label','Presentation mode'); el.innerHTML=`<header class="vls-head"><strong>▣ VISUAL LEARNING STUDIO</strong><span id="vls-count" style="color:#8fae8f"></span><span class="vls-spacer"></span><button class="vls-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button><button class="vls-btn" onclick="closePresentation()">✕ Exit</button></header><main class="vls-stage"><div class="vls-visual" id="vls-visual"><div class="vls-placeholder">▧</div></div><article class="vls-copy"><div class="vls-kicker" id="vls-kicker">EVIDENCE / 01</div><h1 id="vls-title"></h1><p id="vls-desc"></p><div id="vls-audio-wrap" style="margin-top:18px"></div></article></main><footer class="vls-foot"><button class="vls-btn" onclick="vlsPrevious()">← Previous</button><button class="vls-btn" id="vls-play-audio" onclick="vlsToggleAudio()">▶ Narration</button><div class="vls-progress"><i id="vls-progress"></i></div><button class="vls-btn" onclick="vlsNext()">Next →</button></footer>`; document.body.appendChild(el);
- }
-}
-async function openPresentationSetup(){ if(!STATE.cards.length){notify('Add cards before presenting','info');return;} await vlsLoadOrder(); vlsEnsureUI(); vlsRenderOrder(); document.getElementById('vls-setup').classList.add('active'); }
-function closePresentationSetup(){document.getElementById('vls-setup')?.classList.remove('active');}
-function vlsRenderOrder(){const box=document.getElementById('vls-order'); if(!box)return; box.innerHTML=''; VLS.order.forEach((id,i)=>{const c=STATE.cards.find(x=>x.id===id);if(!c)return;const row=document.createElement('div');row.className='vls-order-row';const name=document.createElement('span');name.textContent=(i+1)+'. '+(c.title||'Untitled card');row.appendChild(name);for(const [txt,delta] of [['↑',-1],['↓',1]]){const b=document.createElement('button');b.textContent=txt;b.disabled=i+delta<0||i+delta>=VLS.order.length;b.onclick=()=>{const j=i+delta;[VLS.order[i],VLS.order[j]]=[VLS.order[j],VLS.order[i]];vlsRenderOrder();};row.appendChild(b);}const rm=document.createElement('button');rm.textContent='Hide';rm.onclick=()=>{VLS.order.splice(i,1);vlsRenderOrder();};row.appendChild(rm);box.appendChild(row);}); if(!VLS.order.length)box.textContent='No cards selected.'; }
-function vlsResetOrder(){VLS.order=vlsDefaultOrder();vlsRenderOrder();}
-async function savePresentationSetup(){if(!VLS.order.length){notify('Select at least one card','error');return;}await vlsSaveOrder();closePresentationSetup();VLS.index=0;vlsEnsureUI();document.getElementById('vls-present').classList.add('active');vlsShowCurrent();}
-function vlsStopAudio(){if(VLS.audio){VLS.audio.pause();VLS.audio=null;}if(VLS.audioUrl){URL.revokeObjectURL(VLS.audioUrl);VLS.audioUrl=null;}VLS.playing=false;const b=document.getElementById('vls-play-audio');if(b)b.textContent='▶ Narration';}
-async function vlsToggleAudio(){const c=STATE.cards.find(x=>x.id===VLS.order[VLS.index]);if(!c?.narration?.fileId){notify('No narration recorded for this card','info');return;}if(VLS.audio&&!VLS.audio.paused){VLS.audio.pause();VLS.playing=false;document.getElementById('vls-play-audio').textContent='▶ Resume';return;}if(VLS.audio&&VLS.audio.paused){try{await VLS.audio.play();VLS.playing=true;document.getElementById('vls-play-audio').textContent='⏸ Pause';}catch(e){notify('Audio playback failed','error');}return;}try{const rec=await dbGet('files',c.narration.fileId);if(!rec?.blob)throw new Error('Narration audio is missing on this device.');VLS.audioUrl=URL.createObjectURL(rec.blob);VLS.audio=new Audio(VLS.audioUrl);VLS.audio.onended=()=>{vlsStopAudio();setTimeout(()=>{if(document.getElementById('vls-present')?.classList.contains('active'))vlsNext();},900);};await VLS.audio.play();VLS.playing=true;document.getElementById('vls-play-audio').textContent='⏸ Pause';}catch(e){notify(e.message||'Could not play narration','error');vlsStopAudio();}}
-function vlsShowCurrent(){vlsStopAudio();const id=VLS.order[VLS.index],c=STATE.cards.find(x=>x.id===id);if(!c){closePresentation();return;}const img=getMainImage(c);const visual=document.getElementById('vls-visual');visual.innerHTML='';if(img?.data){const image=document.createElement('img');image.src=img.data;image.alt=c.title||'Card image';visual.appendChild(image);}else{const ph=document.createElement('div');ph.className='vls-placeholder';ph.textContent='▧';visual.appendChild(ph);}document.getElementById('vls-kicker').textContent=`${(c.type||'NOTE').toUpperCase()} / ${String(VLS.index+1).padStart(2,'0')}`;document.getElementById('vls-title').textContent=c.title||'Untitled';document.getElementById('vls-desc').textContent=c.desc||'No notes on this card.';document.getElementById('vls-count').textContent=`${VLS.index+1} / ${VLS.order.length}`;document.getElementById('vls-progress').style.width=((VLS.index+1)/VLS.order.length*100)+'%';document.getElementById('vls-play-audio').style.display=c.narration?'inline-block':'none';if(document.getElementById('vls-setup')){} }
-function vlsNext(){if(VLS.index<VLS.order.length-1){VLS.index++;vlsShowCurrent();}else{closePresentation();notify('Presentation complete','success');}}
-function vlsPrevious(){if(VLS.index>0){VLS.index--;vlsShowCurrent();}}
-function closePresentation(){vlsStopAudio();document.getElementById('vls-present')?.classList.remove('active');}
-// Keep the original graph-based investigation as a separate mode.
-const legacyStartPlayInvestigation = startPlayInvestigation;
-// Complete JSON package: includes audio blobs as base64 so another device can restore narration.
-function vlsBlobDataURL(blob){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(blob);});}
-function vlsDataURLBlob(data){const [head,b64]=data.split(',');const mime=(head.match(/data:(.*?);base64/)||[])[1]||'application/octet-stream';const bin=atob(b64);const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new Blob([bytes],{type:mime});}
-async function exportJSON(){try{const files=[];for(const c of STATE.cards){if(c.narration?.fileId){const rec=await dbGet('files',c.narration.fileId);if(rec?.blob)files.push({id:rec.id,kind:'narration',mime:rec.mime||rec.blob.type,durationMs:rec.durationMs||c.narration.durationMs||0,size:rec.size||rec.blob.size,data:await vlsBlobDataURL(rec.blob)});}}const data={format:'detective-thread-board',schemaVersion:3,cards:STATE.cards,threads:STATE.threads,presentation:{order:VLS.order.length?VLS.order:vlsDefaultOrder()},files,exported:new Date().toISOString()};download('investigation_'+Date.now()+'.json','application/json',JSON.stringify(data,null,2));notify('Full backup exported (including narration)','success');}catch(e){notify('Export failed: '+e.message,'error');}}
-// Import is staged and validated before replacing the current board. Existing board remains untouched on failure/cancel.
-function importBoard(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!Array.isArray(data.cards)||!Array.isArray(data.threads))throw new Error('Invalid investigation file.');const ids=new Set(data.cards.map(c=>c.id));if(data.cards.some(c=>!c.id)||data.threads.some(t=>!ids.has(t.from)||!ids.has(t.to)))throw new Error('The file contains invalid card/thread references.');showModal('⬆ Import Investigation',`<p style="font-family:var(--font-mono);font-size:.8rem">Import ${data.cards.length} cards and ${data.threads.length} threads?</p><p style="margin-top:8px;color:#ffb4b4;font-size:.75rem">This replaces the current board. Export a backup first if you need to keep it.</p>`,[{text:'Import & Replace',cls:'primary',cb:async()=>{closeModal();try{await clearBoardData();STATE.cards=[];STATE.threads=[];for(const c of data.cards){STATE.cards.push(c);await dbPut('cards',c);}for(const t of data.threads){STATE.threads.push(t);await dbPut('threads',t);}for(const f of (data.files||[])){if(f.kind==='narration'&&f.data)await dbPut('files',{id:f.id,kind:'narration',blob:vlsDataURLBlob(f.data),mime:f.mime,durationMs:f.durationMs,size:f.size,createdAt:Date.now()});}VLS.order=Array.isArray(data.presentation?.order)?data.presentation.order.filter(id=>ids.has(id)):vlsDefaultOrder();await vlsSaveOrder();renderAll();updateStats();buildTimeline();updateMinimap();STATE.history=[];STATE.historyIndex=-1;notify('Investigation and narration imported','success');}catch(err){notify('Import failed: '+err.message,'error');}}},{text:'Cancel',cls:'cancel',cb:closeModal}]);}catch(err){notify('Import failed: '+err.message,'error');}};input.click();}
-// Add sequence metadata for cards created after the sequence was saved.
-async function saveCard(){await vlsBaseSaveCard();if(VLS.order.length){const known=new Set(VLS.order);for(const c of STATE.cards)if(!known.has(c.id))VLS.order.push(c.id);await vlsSaveOrder();}}
-// Remove deleted cards from the presentation path.
-async function deleteCard(id){await vlsBaseDeleteCard(id);VLS.order=VLS.order.filter(x=>x!==id);if(VLS.order.length)await vlsSaveOrder();}
-// Expose compact presentation shortcuts on keyboard without interfering with text fields.
-document.addEventListener('keydown',e=>{if(!document.getElementById('vls-present')?.classList.contains('active'))return;if(e.target.matches('input,textarea,select'))return;if(e.key==='ArrowRight'){e.preventDefault();vlsNext();}if(e.key==='ArrowLeft'){e.preventDefault();vlsPrevious();}if(e.key==='Escape')closePresentation();});
-
 
 // =================== START ===================
 init();
